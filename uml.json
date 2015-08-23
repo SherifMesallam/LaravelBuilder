@@ -1,0 +1,16 @@
+{
+  "Models":{
+    "User":{
+      "Name": "string,required",
+      "id": "integer,increments"
+    },
+    "Project":{
+      "Name":"string,required",
+      "Description":"text,required"
+    },
+    "Offer":{
+      "Price":"float,required",
+      "Comment":"text"
+    }
+  }
+}
