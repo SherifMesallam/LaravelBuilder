@@ -1,16 +1,75 @@
 {
   "Models":{
     "User":{
-      "Name": "string,required",
-      "id": "integer,increments"
+      "fields":{
+        "Name": "string,required",
+        "email": "email,required",
+        "Password":"password,required",
+        "id": "integer,increments",
+      },
+      "relations":{
+        "HasMany":["Project","Offer"],
+        "HasOne" :["Profile"]
+      }
+    },
+    "Profile":{
+      "fields":{
+        "Name":"string,required",
+        "Job":"string"
+      },
+      "relations":{
+        "BelongsTo":["User"],
+      }
     },
     "Project":{
-      "Name":"string,required",
-      "Description":"text,required"
+      "Fields":{
+        "Name":"string,required",
+        "Description":"text,required"
+      },
+      "relations":{
+        "BelongsTo":["User"],
+      }
     },
     "Offer":{
-      "Price":"float,required",
-      "Comment":"text"
+      "fields": {
+        "Price": "float,required",
+        "Comment": "text"
+      },
+      "relations":{
+        "BelongsTo":["User"],
+      }
+    },
+  },
+  "Requests":{
+    "Signup":{
+      "deals":["User","Profile"],
+      "Actions":{
+        "Receives":["User"],
+        "Validates":["User(data,exists)"],
+        "Creates":["User","Profile"],
+        "Returns":["View"],
+        "Terminates":["View"]
+      },
+    },
+    "Login":{
+      "deals":["User"],
+      "Actions":{
+        "Receives":["email,password,remember"],
+        "Validates":"Auto",
+        "Custom":"Login",
+        "Returns":["View"],
+        "Terminates":["View"]
+      }
+    },
+    "AddProject":{
+      "deals":["User","Project"],
+      "Actions":{
+        "Receives":["Project"],
+        "Validates":["User(logged),Project(data,exists)"],
+        "Creates":["Project"],
+        "Returns":["View"],
+        "Terminates":["View"]
+      }
     }
   }
 }
